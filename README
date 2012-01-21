@@ -1,0 +1,20 @@
+Simple Javascript Device Detection based on user agend.
+
+Usage:
+-------
+
+var detection = DeviceDetection();
+detection.isApple();
+detection.isTouchDevice();
+detection.isAndroid();
+detection.isSmartPhone();
+detection.isDesktop();
+detection.isTablet();
+
+Development / Status:
+---------------------
+
+The lib is just the current working status. Its not yet tested on all diffrent user agents.
+But it should be easy to add more tests.
+
+For development please check the QUnit based Unittests and add your user agend strings there.

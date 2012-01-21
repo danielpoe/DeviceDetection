@@ -1,0 +1,149 @@
+<html>
+<head>
+	<link href="qunit/qunit.css" rel="stylesheet" type="text/css" />
+	<script src="qunit/qunit.js"></script>
+	
+	
+	<script src="../src/devicedetection.js"></script>
+
+</head>
+<script>
+// http://www.zytrax.com/tech/web/mobile_ids.html
+userAgendFixtures = {
+  iPod3G: "Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5",
+  iPhone4: "Mozilla/5.0 (iPhone; CPU iPhone OS 5_0_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A405 Safari/7534.48.3",
+  iPad2DeSafari: "Mozilla/5.0 (iPad; U; CPU OS 4_3 like Mac OS X; de-de) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8F191 Safari/6533.18.5",
+  iPad2EnSafari:  "Mozilla/5.0 (iPad; U; CPU OS 4_3_1 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8G4 Safari/6533.18.5",
+
+
+  chromeOnMac:  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.75 Safari/535.7",
+  firefoxOnWindows:  "Mozilla/5.0 (Windows NT 6.2; rv:9.0.1) Gecko/20100101 Firefox/9.0.1",
+
+  blackBerryPlayBook: "Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/7.1.0.7 Safari/534.11+",
+  blackBerry1:  "Mozilla/5.0 (BlackBerry; U; BlackBerry 9850; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/7.0.0.115 Mobile Safari/534.11+",
+  blackBerry2:  "BlackBerry9800/5.0.0.862 Profile/MIDP-2.1 Configuration/CLDC-1.1 VendorID/331 UNTRUSTED/1.0 3gpp-gba",
+
+  android1:  "Mozilla/5.0 (Linux; U; Android 2.3.3; en-us; HTC_DesireS_S510e Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+  androidHtc:  "Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+  androidTablet: "Mozilla/5.0 (Linux; U; Android 2.2; en-us; SHW-M180S Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+
+  operaMiniMobileBrowser:  "Opera/9.80 (J2ME/MIDP; Opera Mini/9.80 (S60; SymbOS; Opera Mobi/23.348; U; en) Presto/2.5.25 Version/10.54",
+  palmPre: "Mozilla/5.0 (webOS/1.0; U; en-US) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/1.0 Safari/525.27.1 Pre/1.0",
+  amazonKindle3: "Mozilla/5.0 (Linux; U; en-US) AppleWebKit/528.5+ (KHTML, like Gecko, Safari/528.5+) Version/4.0 Kindle/3.0 (screen 600X800; rotate)",
+  
+}
+
+module("DeviceDetection");
+
+test("canDetectIPod", function () {
+		var detection = new DeviceDetection(userAgendFixtures.iPod3G);
+		equal(detection.isApple(),true,'isApple  detection');
+		equal(detection.isTouchDevice(),true,'isTouch  detection');
+		equal(detection.isAndroid(),false,'isAndroid  detection');
+		equal(detection.isSmartPhone(),false,'isSmartPhone  detection');
+		equal(detection.isDesktop(),false,'isDesktop  detection');
+		equal(detection.isTablet(),false,'isTablet detection');
+});
+
+test("canDetectIPads", function () {
+	var devices = Array(userAgendFixtures.iPad2DeSafari,userAgendFixtures.iPad2EnSafari);
+	for (var i=0; i<devices.length; i++) {
+		var detection = new DeviceDetection(devices[i]);
+		equal(detection.isApple(),true,'isApple  detection');
+		equal(detection.isTouchDevice(),true,'isTouch  detection');
+		equal(detection.isAndroid(),false,'isAndroid  detection');
+		equal(detection.isSmartPhone(),false,'isSmartPhone  detection');
+		equal(detection.isDesktop(),false,'isDesktop  detection');
+		equal(detection.isTablet(),true,'isTablet detection');
+	}
+});
+
+test("canDetectTablets", function () {
+	var devices = Array( 
+			userAgendFixtures.iPad2DeSafari,
+			userAgendFixtures.iPad2EnSafari,
+			userAgendFixtures.blackBerryPlayBook, 
+			userAgendFixtures.androidTablet,
+			userAgendFixtures.amazonKindle3
+	);
+	
+	for (var i=0; i<devices.length; i++) {
+		var detection = new DeviceDetection(devices[i]);
+		equal(detection.isTablet(),true,'Tablet detection:'+devices[i]);
+	}
+});
+
+
+test("canDetectSmartPhones", function () {
+	var devices = Array( 
+			userAgendFixtures.iPhone4,
+			userAgendFixtures.blackBerry1,
+			userAgendFixtures.blackBerry2, 
+			userAgendFixtures.android1,
+			userAgendFixtures.androidHtc,
+			userAgendFixtures.operaMiniMobileBrowser,
+			userAgendFixtures.palmPre
+			
+	);
+	for (var i=0; i<devices.length; i++) {
+		var detection = new DeviceDetection(devices[i]);
+		equal(detection.isSmartPhone(),true,'Smartphone detection:'+devices[i]);
+	}
+});
+
+
+test("canDetectIPhone", function () {
+	var detection = new DeviceDetection(userAgendFixtures.iPhone4);
+	equal(detection.isApple(),true,'isApple detection');
+	equal(detection.isTouchDevice(),true,'isTouch detection');
+	equal(detection.isAndroid(),false,'isAndroid  detection');
+	equal(detection.isSmartPhone(),true,'isSmartPhone detection');
+	equal(detection.isDesktop(),false,'isDesktop detection');
+	equal(detection.isTablet(),false,'isTablet detection');
+});
+
+test("canDetectchromeOnMac", function () {
+	var detection = new DeviceDetection(userAgendFixtures.chromeOnMac);
+	equal(detection.isApple(),true,'isApple detection');
+	equal(detection.isTouchDevice(),false,'isTouch detection');
+	equal(detection.isAndroid(),false,'isAndroid  detection');
+	equal(detection.isSmartPhone(),false,'isSmartPhone detection');
+	equal(detection.isDesktop(),true,'isDesktop detection');
+	equal(detection.isTablet(),false,'isTablet detection');
+});
+
+test("canDetectfirefoxOnWindowsfirefoxOnWindows", function () {
+	var detection = new DeviceDetection(userAgendFixtures.firefoxOnWindows);
+	equal(detection.isApple(),false,'isApple detection');
+	equal(detection.isTouchDevice(),false,'isTouch detection');
+	equal(detection.isAndroid(),false,'isAndroid  detection');
+	equal(detection.isSmartPhone(),false,'isSmartPhone detection');
+	equal(detection.isDesktop(),true,'isDesktop detection');
+	equal(detection.isTablet(),false,'isTablet detection');
+});
+
+
+test("canDetectfirefoxOnWindowsfirefoxOnWindows", function () {
+	var detection = new DeviceDetection(userAgendFixtures.firefoxOnWindows);
+	equal(detection.isApple(),false,'isApple detection');
+	equal(detection.isTouchDevice(),false,'isTouch detection');
+	equal(detection.isAndroid(),false,'isAndroid  detection');
+	equal(detection.isSmartPhone(),false,'isSmartPhone detection');
+	equal(detection.isDesktop(),true,'isDesktop detection');
+	equal(detection.isTablet(),false,'isTablet detection');
+});
+
+</script>
+
+</head>
+<body>
+<h1 id="qunit-header">QUnit DeviceDetection</h1>
+
+<h2 id="qunit-banner"></h2>
+
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">test markup, will be hidden</div>
+</body>
+</html>
