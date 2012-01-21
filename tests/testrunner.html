@@ -112,18 +112,8 @@ test("canDetectchromeOnMac", function () {
 	equal(detection.isTablet(),false,'isTablet detection');
 });
 
-test("canDetectfirefoxOnWindowsfirefoxOnWindows", function () {
-	var detection = new DeviceDetection(userAgendFixtures.firefoxOnWindows);
-	equal(detection.isApple(),false,'isApple detection');
-	equal(detection.isTouchDevice(),false,'isTouch detection');
-	equal(detection.isAndroid(),false,'isAndroid  detection');
-	equal(detection.isSmartPhone(),false,'isSmartPhone detection');
-	equal(detection.isDesktop(),true,'isDesktop detection');
-	equal(detection.isTablet(),false,'isTablet detection');
-});
 
-
-test("canDetectfirefoxOnWindowsfirefoxOnWindows", function () {
+test("canDetectfirefoxOnWindows", function () {
 	var detection = new DeviceDetection(userAgendFixtures.firefoxOnWindows);
 	equal(detection.isApple(),false,'isApple detection');
 	equal(detection.isTouchDevice(),false,'isTouch detection');
