@@ -1,6 +1,8 @@
 
 /**
  * DeviceDetection Class
+ * @author Daniel Pötzinger
+ * @author Darius Aukstinaitis
  */
 DeviceDetection = function(ua) {
 	/**
