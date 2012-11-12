@@ -1,4 +1,3 @@
-
 /**
  * DeviceDetection Class
  * @author Daniel Pötzinger
@@ -40,7 +39,7 @@ DeviceDetection = function(ua) {
 		  tabletPc: Boolean(ua.match(/Tablet PC/)),
 		  palmDevice: Boolean(ua.match(/(PalmOS|PalmSource| Pre\/)/)),
 		  kindle: Boolean(ua.match(/(Kindle)/)),
-		  otherMobileHints: Boolean(ua.match(/(Opera Mini|IEMobile|SonyEricsson|smartphone)/)),
+		  otherMobileHints: Boolean(ua.match(/(Opera Mini|IEMobile|SonyEricsson|smartphone)/))
 		};		
 	}
 
